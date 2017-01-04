@@ -20,12 +20,17 @@ public class Minesweeper extends JFrame implements ActionListener{
 	for(int y = 0; y < length; y++){
 	    for(int x = 0; x < width; x++){
 	        grid[x][y] = new JButton("" + x + "," + y);
+		grid[x][y].addActionListener(this);
+		grid[x][y].setActionCommand("" + x + "," + y);
+
+
 		pane.add(grid[x][y]);
 	    }
 	}
     }
     public void actionPerformed(ActionEvent e){
 	String event = e.getActionCommand();
+	System.out.println(event);
     }
 	
     public static void main(String[] args){
