@@ -28,11 +28,5 @@ public class Minesweeper extends JFrame implements ActionListener{
     public static void main(String[] args){
 	Minesweeper g  = new Minesweeper(5,5);
 	g.setVisible(true);
-	SwingUtilities.invokeLater(new Runnable() {
-		@Override
-		public void run(){
-		    new Minesweeper(5,5);
-		}
-	    });
     }
 }
