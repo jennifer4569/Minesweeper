@@ -6,18 +6,21 @@ public class Minesweeper extends JFrame implements ActionListener{
     private Container pane;
     private JLabel j;
     private JTextField t;
+    private JButton[][] grid;
 
-    public Minesweeper(int x, int y){
+    public Minesweeper(int width, int length){
 	this.setTitle("Minesweeper");
 	this.setSize(600,400);
 	this.setLocation(100,100);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	pane = this.getContentPane();
-	pane.setLayout(new GridLayout(x,y));
-	for(int i = 0; i < y; i ++){
-	    for(int j = 0; j < x; j ++){
-		JButton b = new JButton("" + j + "," + i);
-		pane.add(b);
+	pane.setLayout(new GridLayout(width,length));
+
+	grid = new JButton[width][length];
+	for(int y = 0; y < length; y++){
+	    for(int x = 0; x < width; x++){
+	        grid[x][y] = new JButton("" + x + "," + y);
+		pane.add(grid[x][y]);
 	    }
 	}
     }
