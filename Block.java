@@ -60,10 +60,4 @@ public class Block{
 	this.numMines = numMines;
     }
     
-    //IMPLEMENT LATER
-    //returns the number of mines around the block
-    /*private int countMines(int x, int y){
-	return 0;
-	}*/
-
 }
