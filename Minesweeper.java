@@ -52,6 +52,63 @@ public class Minesweeper extends JFrame implements ActionListener{
     public int findNumMines(int x, int y){
 	int count = 0;
 	//...BODY HERE!
+	try{
+	    if(gridBlock[x + 1][y].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x + 1][y - 1].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x + 1][y + 1].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x][y + 1].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x][y - 1].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x - 1][y].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x - 1][y + 1].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	try{
+	    if(gridBlock[x - 1][y - 1].getBomb()){
+		count++;
+	    }
+	}
+	catch(IndexOutOfBoundsException e){
+	}
+	//...BODY HERE!
 	return count;
     }
 
@@ -70,8 +127,14 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    gridButton[x][y].setText("DEAD!");
 	}
 	else{
-	    gridButton[x][y].setText("ALIVE!");
+	    if(gridBlock[x][y].getNumMines() == 0){
+		gridButton[x][y].setText("");
+	    }
+	    else{
+		gridButton[x][y].setText("" + gridBlock[x][y].getNumMines());
+	    }
 	}
+	gridBlock[x][y].setRevealed(true);
     }
 	
     public static void main(String[] args){
