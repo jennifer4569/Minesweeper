@@ -14,8 +14,9 @@ public class Minesweeper extends JFrame implements ActionListener{
     
     public Minesweeper(int width, int length){
 	this.setTitle("Minesweeper");
-	this.setSize(600,400);
+	this.setSize(600,600);
 	this.setLocation(100,100);
+	this.setResizable(false);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	pane = this.getContentPane();
 	pane.setLayout(new GridLayout(width,length));
@@ -28,6 +29,7 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
 
     public void setupGrid(int w, int l){
+	String store;
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
 		gridBlock[x][y] = new Block(x, y);
@@ -36,31 +38,35 @@ public class Minesweeper extends JFrame implements ActionListener{
 		gridButton[x][y].addActionListener(this);
 		
 		gridButton[x][y].setActionCommand("" + x + "," + y);
-		
-		tempx = x;
-		tempy = y;
+	        
 		pane.add(gridButton[x][y]);
 		gridButton[x][y].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-			    // String event = temp;
-			    // int x;
-			    // int y;
-			    // x = Integer.parseInt(event.substring(0,event.indexOf(",")));
-			    // y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
-			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
+			    store = findButton(e.getX(), e.getY());
+			    tempx = Integer.parseInt(store.substring(0,store.indexOf(",")));
+			    tempy = Integer.parseInt(store.substring(store.indexOf(",") + 1));
+
+			    System.out.println("" + tempx + "," + tempy);
+			    /*   if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
 				gridButton[tempx][tempy].setText("");
 				gridBlock[tempx][tempy].setMarked(false);
 			    }
 			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked()){
 				gridButton[tempx][tempy].setText("FLAG");
 				gridBlock[tempx][tempy].setMarked(true);
-			    }
+				}*/
 			}
 		    });
-		
-		// //pane.add(gridButton[x][y]);
+	        
 	    }
 	}
+    }
+
+    public String findButton(int x, int y){
+	String store = "2,3";
+	
+	
+	return store;
     }
     
     public void findAndSetNumMines(int w, int l){
@@ -69,13 +75,11 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    for(int x = 0; x < w; x++){
 		store = findNumMines(x,y);
 		gridBlock[x][y].setNumMines(store);
-		//gridButton[x][y].setActionCommand("" + store);
 	    }
 	}
     }
     public int findNumMines(int x, int y){
 	int count = 0;
-	//...BODY HERE!
 	try{
 	    if(gridBlock[x + 1][y].getBomb()){
 		count++;
@@ -132,33 +136,8 @@ public class Minesweeper extends JFrame implements ActionListener{
 	}
 	catch(IndexOutOfBoundsException e){
 	}
-	//...BODY HERE!
 	return count;
     }
-    // public void mouseClicked(MouseEvent e2){
-    // 	String event = e2.getMouseCommand();
-    // 	int x;
-    // 	int y;
-    // 	System.out.println(event);
-        
-    // 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
-    // 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
-    // 	if(SwingUtilities.isRightMouseButton(e2) && gridBlock[x][y].getMarked()){
-    // 	    gridButton[x][y].setText("");
-    // 	}
-    // 	else if(SwingUtilities.isRightMouseButton(e2) && !gridBlock[x][y].getMarked()){
-    // 	    gridButton[x][y].setText("FLAG");
-    // 	}
-       
-    // }
-    // public void mouseEntered(MouseEvent e){
-    // }
-    // public void mouseExited(MouseEvent e){
-    // }
-    // public void mousePressed(MouseEvent e){
-    // }
-    // public void mouseReleased(MouseEvent e){
-    // }
     
     public void actionPerformed(ActionEvent e){
 	String event = e.getActionCommand();
@@ -168,12 +147,6 @@ public class Minesweeper extends JFrame implements ActionListener{
         
 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
-	// if(SwingUtilities.isRightMouseButton(e) && gridBlock[x][y].getMarked()){
-	//     gridButton[x][y].setText("");
-	// }
-	// else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[x][y].getMarked()){
-	//     gridButton[x][y].setText("FLAG");
-	// }
 	if(gridBlock[x][y].getBomb()){
 	    gridButton[x][y].setText("DEAD!");
 	}
