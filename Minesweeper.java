@@ -34,9 +34,12 @@ public class Minesweeper extends JFrame implements ActionListener{
 
 		gridButton[x][y] = new JButton("" + gridBlock[x][y].getBomb());
 		gridButton[x][y].addActionListener(this);
+		
 		gridButton[x][y].setActionCommand("" + x + "," + y);
+		
 		tempx = x;
 		tempy = y;
+		pane.add(gridButton[x][y]);
 		gridButton[x][y].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
 			    // String event = temp;
@@ -55,7 +58,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 			}
 		    });
 		
-		pane.add(gridButton[x][y]);
+		// //pane.add(gridButton[x][y]);
 	    }
 	}
     }
@@ -132,7 +135,31 @@ public class Minesweeper extends JFrame implements ActionListener{
 	//...BODY HERE!
 	return count;
     }
-
+    // public void mouseClicked(MouseEvent e2){
+    // 	String event = e2.getMouseCommand();
+    // 	int x;
+    // 	int y;
+    // 	System.out.println(event);
+        
+    // 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
+    // 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
+    // 	if(SwingUtilities.isRightMouseButton(e2) && gridBlock[x][y].getMarked()){
+    // 	    gridButton[x][y].setText("");
+    // 	}
+    // 	else if(SwingUtilities.isRightMouseButton(e2) && !gridBlock[x][y].getMarked()){
+    // 	    gridButton[x][y].setText("FLAG");
+    // 	}
+       
+    // }
+    // public void mouseEntered(MouseEvent e){
+    // }
+    // public void mouseExited(MouseEvent e){
+    // }
+    // public void mousePressed(MouseEvent e){
+    // }
+    // public void mouseReleased(MouseEvent e){
+    // }
+    
     public void actionPerformed(ActionEvent e){
 	String event = e.getActionCommand();
 	int x;
