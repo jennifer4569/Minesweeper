@@ -9,6 +9,8 @@ public class Minesweeper extends JFrame implements ActionListener{
     private JTextField t;
     private JButton[][] gridButton;
     private Block[][] gridBlock;
+    private int tempx;
+    private int tempy;
     
     public Minesweeper(int width, int length){
 	this.setTitle("Minesweeper");
@@ -33,6 +35,25 @@ public class Minesweeper extends JFrame implements ActionListener{
 		gridButton[x][y] = new JButton("" + gridBlock[x][y].getBomb());
 		gridButton[x][y].addActionListener(this);
 		gridButton[x][y].setActionCommand("" + x + "," + y);
+		tempx = x;
+		tempy = y;
+		gridButton[x][y].addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+			    // String event = temp;
+			    // int x;
+			    // int y;
+			    // x = Integer.parseInt(event.substring(0,event.indexOf(",")));
+			    // y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
+			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
+				gridButton[tempx][tempy].setText("");
+				gridBlock[tempx][tempy].setMarked(false);
+			    }
+			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked()){
+				gridButton[tempx][tempy].setText("FLAG");
+				gridBlock[tempx][tempy].setMarked(true);
+			    }
+			}
+		    });
 		
 		pane.add(gridButton[x][y]);
 	    }
@@ -112,8 +133,6 @@ public class Minesweeper extends JFrame implements ActionListener{
 	return count;
     }
 
-
-    
     public void actionPerformed(ActionEvent e){
 	String event = e.getActionCommand();
 	int x;
@@ -122,7 +141,12 @@ public class Minesweeper extends JFrame implements ActionListener{
         
 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
-
+	// if(SwingUtilities.isRightMouseButton(e) && gridBlock[x][y].getMarked()){
+	//     gridButton[x][y].setText("");
+	// }
+	// else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[x][y].getMarked()){
+	//     gridButton[x][y].setText("FLAG");
+	// }
 	if(gridBlock[x][y].getBomb()){
 	    gridButton[x][y].setText("DEAD!");
 	}
@@ -138,7 +162,7 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
 	
     public static void main(String[] args){
-	Minesweeper g  = new Minesweeper(5,5);
+	Minesweeper g  = new Minesweeper(8,8);
 	g.setVisible(true);
     }
-}
+	}
