@@ -5,12 +5,14 @@ import java.awt.event.*;
 
 public class Minesweeper extends JFrame implements ActionListener{
     private Container pane;
-    private JLabel j;
-    private JTextField t;
+    // private int width;
+    //  private int length;
     private JButton[][] gridButton;
     private Block[][] gridBlock;
     private int tempx;
     private int tempy;
+
+    private String buttonXY;
     
     public Minesweeper(int width, int length){
 	this.setTitle("Minesweeper");
@@ -18,6 +20,10 @@ public class Minesweeper extends JFrame implements ActionListener{
 	this.setLocation(100,100);
 	this.setResizable(false);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+	//this.width = width;
+	//this.length = length;
+	
 	pane = this.getContentPane();
 	pane.setLayout(new GridLayout(width,length));
 
@@ -29,7 +35,6 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
 
     public void setupGrid(int w, int l){
-	String store;
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
 		gridBlock[x][y] = new Block(x, y);
@@ -42,19 +47,19 @@ public class Minesweeper extends JFrame implements ActionListener{
 		pane.add(gridButton[x][y]);
 		gridButton[x][y].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-			    store = findButton(e.getX(), e.getY());
-			    tempx = Integer.parseInt(store.substring(0,store.indexOf(",")));
-			    tempy = Integer.parseInt(store.substring(store.indexOf(",") + 1));
-
-			    System.out.println("" + tempx + "," + tempy);
-			    /*   if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
+			    buttonXY = findButton(e.getX(), e.getY());
+			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
+			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
+			    System.out.println("" + pane.getBounds().height + "," + pane.getBounds().width);
+			    System.out.println("Expected: " + e.getX() + "," + e.getY() + " Results: "+ tempx + "," + tempy);
+			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
 				gridButton[tempx][tempy].setText("");
 				gridBlock[tempx][tempy].setMarked(false);
 			    }
 			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked()){
 				gridButton[tempx][tempy].setText("FLAG");
 				gridBlock[tempx][tempy].setMarked(true);
-				}*/
+			    }
 			}
 		    });
 	        
@@ -63,8 +68,19 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
 
     public String findButton(int x, int y){
-	String store = "2,3";
-	
+	String store = "";
+	for (int i = 0; i < 8; i++){
+	    if (x > i*pane.getBounds().height/8 && x < (i + 1)*pane.getBounds().height/8){
+		store += "" + i;
+		i = 8;
+	    }
+	}
+	for (int i = 0; i < 8; i++){
+	    if (y > i*pane.getBounds().height/8 && y < (i + 1)*pane.getBounds().height/8){
+		store += "," + i;
+		i = 8;
+	    }
+	}
 	
 	return store;
     }
@@ -160,7 +176,15 @@ public class Minesweeper extends JFrame implements ActionListener{
 	}
 	gridBlock[x][y].setRevealed(true);
     }
-	
+
+    //getters
+    /*    public void setHeight(int height){
+	this.height = height;
+    }
+    public void setWidth(int width){
+        this.width = width;
+	}*/
+    
     public static void main(String[] args){
 	Minesweeper g  = new Minesweeper(8,8);
 	g.setVisible(true);
