@@ -47,11 +47,11 @@ public class Minesweeper extends JFrame implements ActionListener{
 		pane.add(gridButton[x][y]);
 		gridButton[x][y].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-			    buttonXY = findButton(e.getX(), e.getY());
+			    buttonXY = findButton(e.getXOnScreen(), e.getYOnScreen());
 			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
 			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
 			    System.out.println("" + pane.getBounds().height + "," + pane.getBounds().width);
-			    System.out.println("Expected: " + e.getX() + "," + e.getY() + " Results: "+ tempx + "," + tempy);
+			    System.out.println("Expected: " + e.getXOnScreen() + "," + e.getYOnScreen() + " Results: "+ tempx + "," + tempy);
 			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
 				gridButton[tempx][tempy].setText("");
 				gridBlock[tempx][tempy].setMarked(false);
@@ -67,16 +67,16 @@ public class Minesweeper extends JFrame implements ActionListener{
 	}
     }
 
-    public String findButton(int x, int y){
+    public String findButton(double x, double y){
 	String store = "";
 	for (int i = 0; i < 8; i++){
-	    if (x > i*pane.getBounds().height/8 && x < (i + 1)*pane.getBounds().height/8){
+	    if (x >= i*pane.getBounds().height/8.0 && x < (i + 1)*pane.getBounds().height/8.0){
 		store += "" + i;
 		i = 8;
 	    }
 	}
 	for (int i = 0; i < 8; i++){
-	    if (y > i*pane.getBounds().height/8 && y < (i + 1)*pane.getBounds().height/8){
+	    if (y >= i*pane.getBounds().height/8.0 && y < (i + 1)*pane.getBounds().height/8.0){
 		store += "," + i;
 		i = 8;
 	    }
