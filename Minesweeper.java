@@ -53,13 +53,13 @@ public class Minesweeper extends JFrame implements ActionListener{
 			    buttonXY = findButton(p.getX(),p.getY());
 			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
 			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
-			    System.out.println("" + pane.getBounds().height + "," + pane.getBounds().width);
-			    System.out.println("Expected: " + e.getXOnScreen() + "," + e.getYOnScreen() + " Results: "+ tempx + "," + tempy);
-			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked()){
+			    //System.out.println("" + pane.getBounds().height + "," + pane.getBounds().width);
+			    //System.out.println("Expected: " + e.getXOnScreen() + "," + e.getYOnScreen() + " Results: "+ tempx + "," + tempy);
+			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
 				gridButton[tempx][tempy].setText("");
 				gridBlock[tempx][tempy].setMarked(false);
 			    }
-			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked()){
+			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
 				gridButton[tempx][tempy].setText("FLAG");
 				gridBlock[tempx][tempy].setMarked(true);
 			    }
