@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.SwingUtilities.*;
 import java.awt.*;
 import java.awt.event.*;
 //import java.lang.Integer.*;
@@ -47,7 +48,9 @@ public class Minesweeper extends JFrame implements ActionListener{
 		pane.add(gridButton[x][y]);
 		gridButton[x][y].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-			    buttonXY = findButton(e.getXOnScreen(), e.getYOnScreen());
+			    Point p = new Point(e.getXOnScreen(), e.getYOnScreen());
+			    SwingUtilities.convertPointFromScreen(p,(Component)pane);
+			    buttonXY = findButton(p.getX(),p.getY());
 			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
 			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
 			    System.out.println("" + pane.getBounds().height + "," + pane.getBounds().width);
