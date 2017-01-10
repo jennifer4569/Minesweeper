@@ -177,6 +177,9 @@ public class Minesweeper extends JFrame implements ActionListener{
 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
 	gridButton[x][y].setIcon(null);
+	gridButton[x][y].setBackground(Color.WHITE);
+	gridButton[x][y].setContentAreaFilled(false);
+	gridButton[x][y].setOpaque(true);
 	if(gridBlock[x][y].getBomb()){
 	    gridButton[x][y].setText("DEAD!");
 	}
