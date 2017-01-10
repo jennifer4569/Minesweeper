@@ -2,6 +2,10 @@ import javax.swing.*;
 import javax.swing.SwingUtilities.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.io.File;
+import java.awt.Image.*;
 //import java.lang.Integer.*;
 
 public class Minesweeper extends JFrame implements ActionListener{
@@ -12,8 +16,9 @@ public class Minesweeper extends JFrame implements ActionListener{
     private Block[][] gridBlock;
     private int tempx;
     private int tempy;
-
     private String buttonXY;
+    ImageIcon icon = new ImageIcon("flag.jpg");
+
     
     public Minesweeper(int width, int length){
 	this.setTitle("Minesweeper");
@@ -57,10 +62,15 @@ public class Minesweeper extends JFrame implements ActionListener{
 			    //System.out.println("Expected: " + e.getXOnScreen() + "," + e.getYOnScreen() + " Results: "+ tempx + "," + tempy);
 			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
 				gridButton[tempx][tempy].setText("");
+				gridButton[tempx][tempy].setIcon(null);
 				gridBlock[tempx][tempy].setMarked(false);
 			    }
 			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
-				gridButton[tempx][tempy].setText("FLAG");
+				gridButton[tempx][tempy].setText("");
+				Image img = icon.getImage();
+			        img = img.getScaledInstance((pane.getBounds().width/8),(pane.getBounds().height/8),java.awt.Image.SCALE_SMOOTH);
+				icon = new ImageIcon(img);
+				gridButton[tempx][tempy].setIcon(icon);
 				gridBlock[tempx][tempy].setMarked(true);
 			    }
 			}
@@ -73,7 +83,7 @@ public class Minesweeper extends JFrame implements ActionListener{
     public String findButton(double x, double y){
 	String store = "";
 	for (int i = 0; i < 8; i++){
-	    if (x >= i*pane.getBounds().height/8.0 && x < (i + 1)*pane.getBounds().height/8.0){
+	    if (x >= i*pane.getBounds().width/8.0 && x < (i + 1)*pane.getBounds().width/8.0){
 		store += "" + i;
 		i = 8;
 	    }
@@ -163,9 +173,10 @@ public class Minesweeper extends JFrame implements ActionListener{
 	int x;
 	int y;
 	System.out.println(event);
-        
+
 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
+	gridButton[x][y].setIcon(null);
 	if(gridBlock[x][y].getBomb()){
 	    gridButton[x][y].setText("DEAD!");
 	}
