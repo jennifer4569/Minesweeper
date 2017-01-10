@@ -45,7 +45,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    for(int x = 0; x < w; x++){
 		gridBlock[x][y] = new Block(x, y);
 
-		gridButton[x][y] = new JButton("" + gridBlock[x][y].getBomb());
+		gridButton[x][y] = new JButton(""); // + gridBlock[x][y].getBomb());
 		gridButton[x][y].addActionListener(this);
 		
 		gridButton[x][y].setActionCommand("" + x + "," + y);
