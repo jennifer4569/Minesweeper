@@ -16,8 +16,15 @@ public class Block{
 	revealed = false;
 	marked = false;
 
-        randgen = new Random();
-	bomb = randgen.nextBoolean();
+	ArrayList<Integer> ints = new ArrayList<Integer>(4);
+	ints.add(1);
+	ints.add(0);
+	ints.add(1);
+	ints.add(1);
+	Collections.shuffle(ints);
+
+        //randgen = new Random();
+	bomb = (ints.get(0) == 0);
     }
     
     //getters
