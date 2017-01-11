@@ -7,7 +7,7 @@ import java.io.File;
 import java.awt.Image.*;
 
 public class Minesweeper extends JFrame implements ActionListener{
-    private Container pane;
+    private Container grid;
     private JMenuBar menuBar;
     private JButton[][] gridButton;
     private Block[][] gridBlock;
@@ -35,23 +35,46 @@ public class Minesweeper extends JFrame implements ActionListener{
 	setJMenuBar(menuBar);
 	setupMenuBar();
 	
-	pane = getContentPane();
-	pane.setLayout(new GridLayout(width,length));
+	grid = getContentPane();
+        grid.setLayout(new GridLayout(width,length));
 	
 	setupGrid(width,length);
 	findAndSetNumMines(width,length);
     }
 
     public void setupMenuBar(){
-	JMenu gameMenu = new JMenu("Game");
-	menuBar.add(gameMenu);
-	JMenuItem newGameAction = new JMenuItem("New Game");
-	newGameAction.addActionListener(new ActionListener(){
+	JButton newGameButton = new JButton("New Game");
+	newGameButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
-		    //ADD HOW TO MAKE A NEW GAME
+		    //ADD FUNCTION TO MAKE A NEW GAME
 		}
 	    });
-	gameMenu.add(newGameAction);
+
+	JButton playSameBoardButton = new JButton("Play Same Board");
+	playSameBoardButton.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    //ADD FUNCTION TO UNREVEAL ALL REVEALED SPACES
+		}
+	    });
+	
+	JButton optionButton = new JButton("Options");
+        optionButton.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    //ADD FUNCTION TO HAVE A POP UP WINDOW SHOWING OPTIONS
+		}
+	    });
+
+	JButton howToPlayButton = new JButton("How to Play");
+        howToPlayButton.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    //ADD FUNCTION TO HAVE A POP UP SHOWING HOW TO PLAY INSTRUCTIONS
+		}
+	    });
+	
+	menuBar.add(newGameButton);
+	menuBar.add(playSameBoardButton);
+	menuBar.add(optionButton);
+	menuBar.add(howToPlayButton);
     }
     
     public void setupGrid(int w, int l){
@@ -64,11 +87,11 @@ public class Minesweeper extends JFrame implements ActionListener{
 		
 		gridButton[x][y].setActionCommand("" + x + "," + y);
 	        
-		pane.add(gridButton[x][y]);
+		grid.add(gridButton[x][y]);
 		gridButton[x][y].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
 			    Point p = new Point(e.getXOnScreen(), e.getYOnScreen());
-			    SwingUtilities.convertPointFromScreen(p,(Component)pane);
+			    SwingUtilities.convertPointFromScreen(p,(Component)grid);
 			    buttonXY = findButton(p.getX(),p.getY());
 			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
 			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
@@ -81,7 +104,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
 				gridButton[tempx][tempy].setText("");
 				Image img = icon.getImage();
-			        img = img.getScaledInstance((pane.getBounds().width/8),(pane.getBounds().height/8),java.awt.Image.SCALE_SMOOTH);
+			        img = img.getScaledInstance((grid.getBounds().width/8),(grid.getBounds().height/8),java.awt.Image.SCALE_SMOOTH);
 				icon = new ImageIcon(img);
 				gridButton[tempx][tempy].setIcon(icon);
 				gridBlock[tempx][tempy].setMarked(true);
@@ -96,13 +119,13 @@ public class Minesweeper extends JFrame implements ActionListener{
     public String findButton(double x, double y){
 	String store = "";
 	for (int i = 0; i < 8; i++){
-	    if (x >= i*pane.getBounds().width/8.0 && x < (i + 1)*pane.getBounds().width/8.0){
+	    if (x >= i*grid.getBounds().width/8.0 && x < (i + 1)*grid.getBounds().width/8.0){
 		store += "" + i;
 		i = 8;
 	    }
 	}
 	for (int i = 0; i < 8; i++){
-	    if (y >= i*pane.getBounds().height/8.0 && y < (i + 1)*pane.getBounds().height/8.0){
+	    if (y >= i*grid.getBounds().height/8.0 && y < (i + 1)*grid.getBounds().height/8.0){
 		store += "," + i;
 		i = 8;
 	    }
