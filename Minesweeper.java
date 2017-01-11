@@ -35,7 +35,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 	setJMenuBar(menuBar);
 	setupMenuBar();
 	
-	grid = getContentPane();
+        grid = getContentPane();
         grid.setLayout(new GridLayout(width,length));
 	
 	setupGrid(width,length);
@@ -43,12 +43,17 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
 
     public void setupMenuBar(){
-	JButton newGameButton = new JButton("New Game");
-	newGameButton.addActionListener(new ActionListener(){
+	JMenu newGameButton = new JMenu("New Game");
+	JMenuItem beginnerButton = new JMenuItem("Beginner (8x8)");
+	beginnerButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
-		    //ADD FUNCTION TO MAKE A NEW GAME
+		    //SET UP GRID TO MAKE NEW GAME 8X8
 		}
 	    });
+	JMenuItem mediumButton = new JMenuItem("Medium (16x16)");
+	newGameButton.add(beginnerButton);
+	newGameButton.add(mediumButton);
+
 
 	JButton playSameBoardButton = new JButton("Play Same Board");
 	playSameBoardButton.addActionListener(new ActionListener(){
