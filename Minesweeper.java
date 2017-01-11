@@ -6,12 +6,9 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.File;
 import java.awt.Image.*;
-//import java.lang.Integer.*;
 
 public class Minesweeper extends JFrame implements ActionListener{
     private Container pane;
-    // private int width;
-    //  private int length;
     private JButton[][] gridButton;
     private Block[][] gridBlock;
     private int tempx;
@@ -27,9 +24,6 @@ public class Minesweeper extends JFrame implements ActionListener{
 	this.setResizable(false);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-	//this.width = width;
-	//this.length = length;
-	
 	pane = this.getContentPane();
 	pane.setLayout(new GridLayout(width,length));
 
@@ -44,8 +38,8 @@ public class Minesweeper extends JFrame implements ActionListener{
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
 		gridBlock[x][y] = new Block(x, y);
-
-		gridButton[x][y] = new JButton(""); // + gridBlock[x][y].getBomb());
+		
+		gridButton[x][y] = new JButton("");
 		gridButton[x][y].addActionListener(this);
 		
 		gridButton[x][y].setActionCommand("" + x + "," + y);
@@ -58,8 +52,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 			    buttonXY = findButton(p.getX(),p.getY());
 			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
 			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
-			    //System.out.println("" + pane.getBounds().height + "," + pane.getBounds().width);
-			    //System.out.println("Expected: " + e.getXOnScreen() + "," + e.getYOnScreen() + " Results: "+ tempx + "," + tempy);
+			    
 			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
 				gridButton[tempx][tempy].setText("");
 				gridButton[tempx][tempy].setIcon(null);
@@ -193,17 +186,9 @@ public class Minesweeper extends JFrame implements ActionListener{
 	}
 	gridBlock[x][y].setRevealed(true);
     }
-
-    //getters
-    /*    public void setHeight(int height){
-	this.height = height;
-    }
-    public void setWidth(int width){
-        this.width = width;
-	}*/
     
     public static void main(String[] args){
 	Minesweeper g  = new Minesweeper(8,8);
 	g.setVisible(true);
     }
-	}
+}
