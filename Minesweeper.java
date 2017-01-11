@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.SwingUtilities.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
@@ -9,8 +8,11 @@ import java.awt.Image.*;
 
 public class Minesweeper extends JFrame implements ActionListener{
     private Container pane;
+    private JMenuBar menuBar;
     private JButton[][] gridButton;
     private Block[][] gridBlock;
+    private int width;
+    private int length;
     private int tempx;
     private int tempy;
     private String buttonXY;
@@ -18,22 +20,40 @@ public class Minesweeper extends JFrame implements ActionListener{
 
     
     public Minesweeper(int width, int length){
-	this.setTitle("Minesweeper");
-	this.setSize(600,600);
-	this.setLocation(100,100);
-	this.setResizable(false);
-	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-	pane = this.getContentPane();
-	pane.setLayout(new GridLayout(width,length));
-
 	gridButton = new JButton[width][length];
 	gridBlock = new Block[width][length];
+	menuBar = new JMenuBar();
+	this.width = width;
+	this.length = length;
+	
+        setTitle("Minesweeper");
+	setSize(600,600);
+	setLocation(100,100);
+	setResizable(false);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
+	setJMenuBar(menuBar);
+	setupMenuBar();
+	
+	pane = getContentPane();
+	pane.setLayout(new GridLayout(width,length));
 	
 	setupGrid(width,length);
 	findAndSetNumMines(width,length);
     }
 
+    public void setupMenuBar(){
+	JMenu gameMenu = new JMenu("Game");
+	menuBar.add(gameMenu);
+	JMenuItem newGameAction = new JMenuItem("New Game");
+	newGameAction.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    //ADD HOW TO MAKE A NEW GAME
+		}
+	    });
+	gameMenu.add(newGameAction);
+    }
+    
     public void setupGrid(int w, int l){
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
