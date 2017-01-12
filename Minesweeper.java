@@ -41,14 +41,16 @@ public class Minesweeper extends JFrame implements ActionListener{
 	setResizable(false);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
-	setJMenuBar(menuBar);
-	this.setupMenuBar();
 	
         grid = getContentPane();
         grid.setLayout(new GridLayout(width,length));
 	
 	setupGrid(width,length);
 	findAndSetNumMines(width,length);
+
+
+	setJMenuBar(menuBar);
+	this.setupMenuBar();
     }
 
     public void setupMenuBar(){
@@ -106,7 +108,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    });
 
         currentFlags = 0;
-        maxFlags = 10; //CHANGE LATER THIS ISN'T CORRECT
+        maxFlags = findMaxFlags(gridBlock); //CHANGE LATER THIS ISN'T CORRECT
         flagCount = new JLabel("Flag Count: " + currentFlags + "/ " + maxFlags);
 
 	menuBar.add(newGameButton);
@@ -115,6 +117,17 @@ public class Minesweeper extends JFrame implements ActionListener{
 	menuBar.add(flagCount);
     }
     
+    public int findMaxFlags(Block[][] blockAry){
+	int count = 0;
+	for(int r = 0; r < blockAry.length; r++){
+	    for (int c = 0; c < blockAry[r].length; c++){
+		if (blockAry[r][c].getBomb()){
+		    count++;
+		}
+	    }
+	}
+	return count;
+    }
     public void setupGrid(int w, int l){
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
@@ -160,6 +173,7 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    }
 	}
     }
+    
 
     public String findButton(double x, double y){
 	String store = "";
