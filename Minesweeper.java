@@ -16,6 +16,10 @@ public class Minesweeper extends JFrame implements ActionListener{
     private int tempx;
     private int tempy;
     private String buttonXY;
+
+    private int currentFlags;
+    private int maxFlags;
+    private JLabel flagCount;
     ImageIcon icon = new ImageIcon("flag.jpg");
 
     
@@ -27,13 +31,18 @@ public class Minesweeper extends JFrame implements ActionListener{
 	this.length = length;
 	
         setTitle("Minesweeper");
-	setSize(600,600);
+	if(width > length){
+	    setSize(length * 50, width * 50); //CHECK TO SEE IF THE SIZE IS BIG ENOUGH FOR THE SCREEN (LATER)
+	}
+	else{
+	    setSize(width * 50, length * 50);
+	}
 	setLocation(100,100);
 	setResizable(false);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
 	setJMenuBar(menuBar);
-	setupMenuBar();
+	this.setupMenuBar();
 	
         grid = getContentPane();
         grid.setLayout(new GridLayout(width,length));
@@ -47,21 +56,41 @@ public class Minesweeper extends JFrame implements ActionListener{
 	JMenuItem beginnerButton = new JMenuItem("Beginner (8x8)");
 	beginnerButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
-		    //SET UP GRID TO MAKE NEW GAME 8X8
+		    Minesweeper a  = new Minesweeper(8,8);
+		    a.setVisible(true);
+		    dispose();
 		}
 	    });
 	JMenuItem mediumButton = new JMenuItem("Medium (16x16)");
-	newGameButton.add(beginnerButton);
-	newGameButton.add(mediumButton);
+        mediumButton.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    Minesweeper a  = new Minesweeper(16,16);
+		    a.setVisible(true);
+		    dispose();
+		}
+	    });
+	JMenuItem hardButton = new JMenuItem("Hard (32x16)");
+        hardButton.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		    Minesweeper a  = new Minesweeper(32,16);
+		    a.setVisible(true);
+		    dispose();
+		}
+	    });
+	//ADD CUSTOM GAME BUTTON HERE
 
-
-	JButton playSameBoardButton = new JButton("Play Same Board");
+	JMenuItem playSameBoardButton = new JMenuItem("Play Same Board");
 	playSameBoardButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
 		    //ADD FUNCTION TO UNREVEAL ALL REVEALED SPACES
 		}
 	    });
 	
+	newGameButton.add(beginnerButton);
+	newGameButton.add(mediumButton);
+	newGameButton.add(hardButton);
+	newGameButton.add(playSameBoardButton);
+
 	JButton optionButton = new JButton("Options");
         optionButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
@@ -75,11 +104,15 @@ public class Minesweeper extends JFrame implements ActionListener{
 		    //ADD FUNCTION TO HAVE A POP UP SHOWING HOW TO PLAY INSTRUCTIONS
 		}
 	    });
-	
+
+        currentFlags = 0;
+        maxFlags = 10; //CHANGE LATER THIS ISN'T CORRECT
+        flagCount = new JLabel("Flag Count: " + currentFlags + "/ " + maxFlags);
+
 	menuBar.add(newGameButton);
-	menuBar.add(playSameBoardButton);
 	menuBar.add(optionButton);
 	menuBar.add(howToPlayButton);
+	menuBar.add(flagCount);
     }
     
     public void setupGrid(int w, int l){
@@ -105,6 +138,9 @@ public class Minesweeper extends JFrame implements ActionListener{
 				gridButton[tempx][tempy].setText("");
 				gridButton[tempx][tempy].setIcon(null);
 				gridBlock[tempx][tempy].setMarked(false);
+
+			        currentFlags -= 1;
+				flagCount.setText("Flag Count: " + currentFlags + "/ " + maxFlags);
 			    }
 			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
 				gridButton[tempx][tempy].setText("");
@@ -113,6 +149,10 @@ public class Minesweeper extends JFrame implements ActionListener{
 				icon = new ImageIcon(img);
 				gridButton[tempx][tempy].setIcon(icon);
 				gridBlock[tempx][tempy].setMarked(true);
+
+			        currentFlags += 1;
+				flagCount.setText("Flag Count: " + currentFlags + "/ " + maxFlags);
+
 			    }
 			}
 		    });
