@@ -37,9 +37,14 @@ public class Minesweeper extends JFrame implements ActionListener{
 	// else{
 	//     setSize(width * 50, length * 50);
 	// }
-
-	setSize(length * 50, width * 50);
-	setLocation(100,100);
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	if(screenSize.getWidth() < screenSize.getHeight()){
+	    setSize((int)screenSize.getHeight() / 2, (int)screenSize.getHeight() / 2);
+	}
+	else{
+	    setSize((int)screenSize.getWidth() / 2 , (int)screenSize.getWidth() / 2);
+	}
+	setLocation(0,0);
 	setResizable(false);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
@@ -73,10 +78,10 @@ public class Minesweeper extends JFrame implements ActionListener{
 		    dispose();
 		}
 	    });
-	JMenuItem hardButton = new JMenuItem("Hard (32x16)");
+	JMenuItem hardButton = new JMenuItem("Hard (20x20)");
         hardButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
-		    Minesweeper a  = new Minesweeper(32,16);
+		    Minesweeper a  = new Minesweeper(20,20);
 		    a.setVisible(true);
 		    dispose();
 		}
@@ -137,7 +142,12 @@ public class Minesweeper extends JFrame implements ActionListener{
 		
 		gridButton[y][x] = new JButton("");
 		gridButton[y][x].addActionListener(this);
-		
+
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Font font = new Font("Arial", Font.PLAIN, (int)screenSize.getWidth() / (8 * w));
+		gridButton[y][x].setFont(font);
+
 		gridButton[y][x].setActionCommand("" + x + "," + y);
 	        
 		grid.add(gridButton[y][x]);
