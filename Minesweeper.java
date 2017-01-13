@@ -24,19 +24,21 @@ public class Minesweeper extends JFrame implements ActionListener{
 
     
     public Minesweeper(int width, int length){
-	gridButton = new JButton[width][length];
-	gridBlock = new Block[width][length];
+	gridButton = new JButton[length][width];
+	gridBlock = new Block[length][width];
 	menuBar = new JMenuBar();
 	this.width = width;
 	this.length = length;
 	
         setTitle("Minesweeper");
-	if(width > length){
-	    setSize(length * 50, width * 50); //CHECK TO SEE IF THE SIZE IS BIG ENOUGH FOR THE SCREEN (LATER)
-	}
-	else{
-	    setSize(width * 50, length * 50);
-	}
+	// if(width > length){
+	//     setSize(length * 50, width * 50); //CHECK TO SEE IF THE SIZE IS BIG ENOUGH FOR THE SCREEN (LATER)
+	// }
+	// else{
+	//     setSize(width * 50, length * 50);
+	// }
+
+	setSize(length * 50, width * 50);
 	setLocation(100,100);
 	setResizable(false);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -131,15 +133,15 @@ public class Minesweeper extends JFrame implements ActionListener{
     public void setupGrid(int w, int l){
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
-		gridBlock[x][y] = new Block(x, y);
+		gridBlock[y][x] = new Block(x, y);
 		
-		gridButton[x][y] = new JButton("");
-		gridButton[x][y].addActionListener(this);
+		gridButton[y][x] = new JButton("");
+		gridButton[y][x].addActionListener(this);
 		
-		gridButton[x][y].setActionCommand("" + x + "," + y);
+		gridButton[y][x].setActionCommand("" + x + "," + y);
 	        
-		grid.add(gridButton[x][y]);
-		gridButton[x][y].addMouseListener(new MouseAdapter(){
+		grid.add(gridButton[y][x]);
+		gridButton[y][x].addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
 			    Point p = new Point(e.getXOnScreen(), e.getYOnScreen());
 			    SwingUtilities.convertPointFromScreen(p,(Component)grid);
@@ -147,21 +149,21 @@ public class Minesweeper extends JFrame implements ActionListener{
 			    tempx = Integer.parseInt(buttonXY.substring(0,buttonXY.indexOf(",")));
 			    tempy = Integer.parseInt(buttonXY.substring(buttonXY.indexOf(",") + 1));
 			    
-			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
-				gridButton[tempx][tempy].setText("");
-				gridButton[tempx][tempy].setIcon(null);
-				gridBlock[tempx][tempy].setMarked(false);
+			    if(SwingUtilities.isRightMouseButton(e) && gridBlock[tempy][tempx].getMarked() && !gridBlock[tempy][tempx].getRevealed()){
+				gridButton[tempy][tempx].setText("");
+				gridButton[tempy][tempx].setIcon(null);
+				gridBlock[tempy][tempx].setMarked(false);
 
 			        currentFlags -= 1;
 				flagCount.setText("Flag Count: " + currentFlags + "/ " + maxFlags);
 			    }
-			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempx][tempy].getMarked() && !gridBlock[tempx][tempy].getRevealed()){
-				gridButton[tempx][tempy].setText("");
+			    else if(SwingUtilities.isRightMouseButton(e) && !gridBlock[tempy][tempx].getMarked() && !gridBlock[tempy][tempx].getRevealed()){
+				gridButton[tempy][tempx].setText("");
 				Image img = icon.getImage();
-			        img = img.getScaledInstance((grid.getBounds().width/8),(grid.getBounds().height/8),java.awt.Image.SCALE_SMOOTH);
+			        img = img.getScaledInstance((grid.getBounds().width/width),(grid.getBounds().height/length),java.awt.Image.SCALE_SMOOTH);
 				icon = new ImageIcon(img);
-				gridButton[tempx][tempy].setIcon(icon);
-				gridBlock[tempx][tempy].setMarked(true);
+				gridButton[tempy][tempx].setIcon(icon);
+				gridBlock[tempy][tempx].setMarked(true);
 
 			        currentFlags += 1;
 				flagCount.setText("Flag Count: " + currentFlags + "/ " + maxFlags);
@@ -177,16 +179,16 @@ public class Minesweeper extends JFrame implements ActionListener{
 
     public String findButton(double x, double y){
 	String store = "";
-	for (int i = 0; i < 8; i++){
-	    if (x >= i*grid.getBounds().width/8.0 && x < (i + 1)*grid.getBounds().width/8.0){
+	for (int i = 0; i < width; i++){
+	    if (x >= i*grid.getBounds().width/width && x < (i + 1)*grid.getBounds().width/width){
 		store += "" + i;
-		i = 8;
+		i = width;
 	    }
 	}
-	for (int i = 0; i < 8; i++){
-	    if (y >= i*grid.getBounds().height/8.0 && y < (i + 1)*grid.getBounds().height/8.0){
+	for (int i = 0; i < length; i++){
+	    if (y >= i*grid.getBounds().height/length && y < (i + 1)*grid.getBounds().height/length){
 		store += "," + i;
-		i = 8;
+		i = length;
 	    }
 	}
 	
@@ -198,63 +200,63 @@ public class Minesweeper extends JFrame implements ActionListener{
 	for(int y = 0; y < l; y++){
 	    for(int x = 0; x < w; x++){
 		store = findNumMines(x,y);
-		gridBlock[x][y].setNumMines(store);
+		gridBlock[y][x].setNumMines(store);
 	    }
 	}
     }
     public int findNumMines(int x, int y){
 	int count = 0;
 	try{
-	    if(gridBlock[x + 1][y].getBomb()){
+	    if(gridBlock[y + 1][x].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x + 1][y - 1].getBomb()){
+	    if(gridBlock[y + 1][x - 1].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x + 1][y + 1].getBomb()){
+	    if(gridBlock[y + 1][x + 1].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x][y + 1].getBomb()){
+	    if(gridBlock[y][x + 1].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x][y - 1].getBomb()){
+	    if(gridBlock[y][x - 1].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x - 1][y].getBomb()){
+	    if(gridBlock[y - 1][x].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x - 1][y + 1].getBomb()){
+	    if(gridBlock[y - 1][x + 1].getBomb()){
 		count++;
 	    }
 	}
 	catch(IndexOutOfBoundsException e){
 	}
 	try{
-	    if(gridBlock[x - 1][y - 1].getBomb()){
+	    if(gridBlock[y - 1][x - 1].getBomb()){
 		count++;
 	    }
 	}
@@ -271,22 +273,22 @@ public class Minesweeper extends JFrame implements ActionListener{
 
 	x = Integer.parseInt(event.substring(0,event.indexOf(",")));
 	y = Integer.parseInt(event.substring(event.indexOf(",") + 1));
-	gridButton[x][y].setIcon(null);
-	gridButton[x][y].setBackground(Color.WHITE);
-	gridButton[x][y].setContentAreaFilled(false);
-	gridButton[x][y].setOpaque(true);
-	if(gridBlock[x][y].getBomb()){
-	    gridButton[x][y].setText("DEAD!");
+	gridButton[y][x].setIcon(null);
+	gridButton[y][x].setBackground(Color.WHITE);
+	gridButton[y][x].setContentAreaFilled(false);
+	gridButton[y][x].setOpaque(true);
+	if(gridBlock[y][x].getBomb()){
+	    gridButton[y][x].setText("DEAD!");
 	}
 	else{
-	    if(gridBlock[x][y].getNumMines() == 0){
-		gridButton[x][y].setText("");
+	    if(gridBlock[y][x].getNumMines() == 0){
+		gridButton[y][x].setText("");
 	    }
 	    else{
-		gridButton[x][y].setText("" + gridBlock[x][y].getNumMines());
+		gridButton[y][x].setText("" + gridBlock[y][x].getNumMines());
 	    }
 	}
-	gridBlock[x][y].setRevealed(true);
+	gridBlock[y][x].setRevealed(true);
     }
     
     public static void main(String[] args){
