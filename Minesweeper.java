@@ -302,7 +302,7 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
     
     public static void main(String[] args){
-	Minesweeper g  = new Minesweeper(8,8);
+	Main g  = new Main();
 	g.setVisible(true);
     }
 }
