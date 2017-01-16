@@ -289,6 +289,10 @@ public class Minesweeper extends JFrame implements ActionListener{
 	gridButton[y][x].setOpaque(true);
 	if(gridBlock[y][x].getBomb()){
 	    gridButton[y][x].setText("DEAD!");
+	    End g = new End();
+	    g.setVisible(true);
+	    dispose();
+			 
 	}
 	else{
 	    if(gridBlock[y][x].getNumMines() == 0){

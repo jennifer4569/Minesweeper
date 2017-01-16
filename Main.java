@@ -8,7 +8,7 @@ public class Main extends JFrame implements ActionListener{
     
     public Main(){
 	this.setTitle("Minesweeper");
-	this.setSize(400,600);
+	this.setSize(350,400);
 	this.setLocation(0,0);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	pane = this.getContentPane();
