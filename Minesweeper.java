@@ -21,7 +21,7 @@ public class Minesweeper extends JFrame implements ActionListener{
     private int maxFlags;
     private JLabel flagCount;
     ImageIcon icon = new ImageIcon("flag.jpg");
-
+    int revealed = 0;
     
     public Minesweeper(int width, int length){
 	gridButton = new JButton[length][width];
@@ -297,12 +297,19 @@ public class Minesweeper extends JFrame implements ActionListener{
 	else{
 	    if(gridBlock[y][x].getNumMines() == 0){
 		gridButton[y][x].setText("");
+		revealed ++;
 	    }
 	    else{
 		gridButton[y][x].setText("" + gridBlock[y][x].getNumMines());
+		revealed++;
 	    }
 	}
 	gridBlock[y][x].setRevealed(true);
+	if(revealed == (length * width - maxFlags)){
+	    Win g = new Win();
+	    g.setVisible(true);
+	    dispose();
+	}
     }
     
     public static void main(String[] args){

@@ -12,7 +12,7 @@ public class Main extends JFrame implements ActionListener{
 	this.setLocation(0,0);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	pane = this.getContentPane();
-	pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+	pane.setLayout(new GridLayout(7,1));
         JButton easy = new JButton("<html>Easy<br />8x8 Puzzle</html>");
 	easy.addActionListener(this);
 	easy.setActionCommand("easy");
@@ -30,13 +30,14 @@ public class Main extends JFrame implements ActionListener{
 
 	JLabel name = new JLabel("MINESWEEPER");
 	name.setFont(new Font("FuturaBlack BT", Font.BOLD, 40));
-	name.setAlignmentX(Component.CENTER_ALIGNMENT);
+	name.setHorizontalAlignment(JLabel.CENTER);
+	//name.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-	JLabel custom = new JLabel("Custom size:");
-	custom.setAlignmentX(Component.CENTER_ALIGNMENT);
+	JLabel custom = new JLabel("Custom Size: (min: 4   max: 20)");
+
 
 	dim = new JTextField(10);
-	dim.setAlignmentX(Component.CENTER_ALIGNMENT);
+	//dim.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 	JButton start = new JButton("Start Custom Game");
 	start.addActionListener(this);
@@ -73,17 +74,21 @@ public class Main extends JFrame implements ActionListener{
 	if(event.equals("start")){
 	    String textfield = dim.getText();
 	    int num = Integer.parseInt(textfield);
-	    if(num < 4){
-		dim.setText("4");
-		num = 4;
+	    try{
+		if(num < 4){
+		    dim.setText("4");
+		    num = 4;
+		}
+		if(num > 20){
+		    dim.setText("20");
+		    num = 20;
+		}
+		Minesweeper g = new Minesweeper(num,num);
+		g.setVisible(true);
+		dispose();
 	    }
-	    if(num > 20){
-		dim.setText("20");
-		num = 20;
+	    catch(NumberFormatException a){
 	    }
-	    Minesweeper g = new Minesweeper(num,num);
-	    g.setVisible(true);
-	    dispose();
 	}
 	    
     }
