@@ -88,28 +88,26 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    });
 	//ADD CUSTOM GAME BUTTON HERE
 
-	JMenuItem playSameBoardButton = new JMenuItem("Play Same Board");
-	playSameBoardButton.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent event){
-		    //ADD FUNCTION TO UNREVEAL ALL REVEALED SPACES
-		}
-	    });
+	
 	
 	newGameButton.add(beginnerButton);
 	newGameButton.add(mediumButton);
 	newGameButton.add(hardButton);
-	newGameButton.add(playSameBoardButton);
 
-	JButton optionButton = new JButton("Options");
-        optionButton.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent event){
-		    //ADD FUNCTION TO HAVE A POP UP WINDOW SHOWING OPTIONS
-		}
-	    });
+
+	// JButton optionButton = new JButton("Options");
+        // optionButton.addActionListener(new ActionListener(){
+	// 	public void actionPerformed(ActionEvent event){
+		    
+	// 	    //ADD FUNCTION TO HAVE A POP UP WINDOW SHOWING OPTIONS
+	// 	}
+	//     });
 
 	JButton howToPlayButton = new JButton("How to Play");
         howToPlayButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
+		    How b = new How();
+		    b.setVisible(true);
 		    //ADD FUNCTION TO HAVE A POP UP SHOWING HOW TO PLAY INSTRUCTIONS
 		}
 	    });
@@ -119,7 +117,7 @@ public class Minesweeper extends JFrame implements ActionListener{
         flagCount = new JLabel("Flag Count: " + currentFlags + "/ " + maxFlags);
 
 	menuBar.add(newGameButton);
-	menuBar.add(optionButton);
+	//menuBar.add(optionButton);
 	menuBar.add(howToPlayButton);
 	menuBar.add(flagCount);
     }

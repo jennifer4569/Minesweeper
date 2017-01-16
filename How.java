@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class How extends JFrame{
+public class How extends JFrame implements ActionListener{
     private Container pane;
 
     public How(){
@@ -19,10 +19,18 @@ public class How extends JFrame{
 	msg.setAlignmentX(Component.CENTER_ALIGNMENT);
 	JLabel msg2 = new JLabel("<html>Click on the blocks and they will reveal the number of bombs<br /> surrounding them. To win, reveal all blocks without bombs. <br />Clicking on a block with a bomb will result in losing.</html>");
 	msg2.setAlignmentX(Component.CENTER_ALIGNMENT);
+	JButton close = new JButton("Close");
+	close.setAlignmentX(Component.CENTER_ALIGNMENT);
+	close.addActionListener(this);
+	close.setActionCommand("Close");
 	
 	pane.add(name);
 	pane.add(msg);
 	pane.add(msg2);
+	pane.add(close);
+    }
+    public void actionPerformed(ActionEvent e){
+	setVisible(false);
     }
     
     
