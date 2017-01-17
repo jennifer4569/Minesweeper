@@ -214,61 +214,16 @@ public class Minesweeper extends JFrame implements ActionListener{
     }
     public int findNumMines(int x, int y){
 	int count = 0;
-	try{
-	    if(gridBlock[y + 1][x].getBomb()){
-		count++;
+	for(int r = -1; r < 2; r++){
+	    for(int c = -1; c < 2; c++){
+		try{
+		    if(gridBlock[y + c][x + r].getBomb()){
+			count++;
+		    }
+		}
+		catch(IndexOutOfBoundsException e){
+		}
 	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y + 1][x - 1].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y + 1][x + 1].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y][x + 1].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y][x - 1].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y - 1][x].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y - 1][x + 1].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
-	}
-	try{
-	    if(gridBlock[y - 1][x - 1].getBomb()){
-		count++;
-	    }
-	}
-	catch(IndexOutOfBoundsException e){
 	}
 	return count;
     }
@@ -295,7 +250,9 @@ public class Minesweeper extends JFrame implements ActionListener{
 	else{
 	    if(gridBlock[y][x].getNumMines() == 0){
 		gridButton[y][x].setText("");
-		revealed ++;
+		//revealBlocksAround(x, y);
+		revealed++;
+		
 	    }
 	    else{
 		gridButton[y][x].setText("" + gridBlock[y][x].getNumMines());
@@ -309,6 +266,22 @@ public class Minesweeper extends JFrame implements ActionListener{
 	    dispose();
 	}
     }
+    /*   public void revealBlocksAround(int x, int y){
+	for(int r = -1; r < 2; r++){
+	    for(int c = -1; c < 2; c++){
+		try{
+		    if(gridBlock[y + c][x + r].getNumMines() == 0){
+			gridButton[y + c][x + r].setText("");
+			revealBlocksAround(x + r, y + c);
+			revealed++;
+		    }
+		}
+		catch(IndexOutOfBoundsException e){
+		}
+	    }
+	}
+    }
+    */
     
     public static void main(String[] args){
 	Main g  = new Main();
