@@ -12,12 +12,12 @@ This project is a single-player strategy game based off of Minesweeper. The goal
    4. Run the Minesweeper file (java Minesweeper)
 
 ## Directions
-  - When you open run the program, you will see a window that will have 3 buttons for easy, medium, and hard. Clicking on those buttons will create a puzzle in the specified size.
+- When you open run the program, you will see a window that will have 3 buttons for easy, medium, and hard. Clicking on those buttons will create a puzzle in the specified size.
    - Below those buttons, there is a box that you can input a number from 4 to 20. Clicking on Start Custom Game will start a custom game with the specified number as the length and width of the grid.
-  - Play the Minesweeper game the way you normally play Minesweeper.
-   - Left click reveals the space, and right click flags the space.
-  - On the top of the window, there is a drop-down menu for new game, a how to play button, and a flag count. The drop-down menu has the standard 3 versions (easy, medium, hard), and when you click it, it creates a new game in the specified size. The how to play button, when clicked, will have a window pop up, and the window will have all the directions on how to play minesweeper. Flag count shows the number of flags you have on the grid right now over the total number of bombs in the grid.
-  - When you win/lose, there will be a window that pops up, prompting you to start a new game. Clicking that will go back to the original window seen at the start of running the program.
+- Play the Minesweeper game the way you normally play Minesweeper.
+  - Left click reveals the space, and right click flags the space.
+- On the top of the window, there is a drop-down menu for new game, a how to play button, and a flag count. The drop-down menu has the standard 3 versions (easy, medium, hard), and when you click it, it creates a new game in the specified size. The how to play button, when clicked, will have a window pop up, and the window will have all the directions on how to play minesweeper. Flag count shows the number of flags you have on the grid right now over the total number of bombs in the grid.
+- When you win/lose, there will be a window that pops up, prompting you to start a new game. Clicking that will go back to the original window seen at the start of running the program.
 
 ## Working Features
   - Different size games
